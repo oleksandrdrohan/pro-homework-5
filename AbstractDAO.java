@@ -180,7 +180,7 @@ public abstract class AbstractDAO<T> {
         }
     }
 
-    public List<T> getAll(Class<T> cls, String ... col) {
+    public List<T> getAll(Class<T> cls, String ... params) {
         List<T> res = new ArrayList<>();
         try {
             try (Statement st = conn.createStatement()) {
@@ -188,8 +188,8 @@ public abstract class AbstractDAO<T> {
                     ResultSetMetaData md = rs.getMetaData();
                     while (rs.next()) {
                         T t = cls.newInstance(); //!!!
-                        for(int i = 0; i < col.length; i++) {
-                            String columnName = col[i];
+                        for(int i = 0; i < params.length; i++) {
+                            String columnName = params[i];
                             Field field = cls.getDeclaredField(columnName);
                             field.setAccessible(true);
 
